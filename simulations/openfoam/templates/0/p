@@ -1,0 +1,62 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version: v2312
+    \\  /    A nd           |
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Kinematic pressure p/rho [m²/s²]
+
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            fixedValue;
+        value           uniform 0;
+    }
+
+    ground
+    {
+        type            zeroGradient;
+    }
+
+    top
+    {
+        type            symmetry;
+    }
+
+    sides
+    {
+        type            symmetry;
+    }
+
+    geometry
+    {
+        type            zeroGradient;
+    }
+
+    frontAndBack
+    {
+        type            symmetry;
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version: v2312
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Specific turbulence dissipation rate [1/s]
+// Used by k-omega SST model. Value computed as k^0.5 / (Cmu^0.25 * L).
+
+#include        "initialConditions"
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform $turbulentOmega;
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           $internalField;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+
+    top
+    {
+        type            symmetry;
+    }
+
+    sides
+    {
+        type            symmetry;
+    }
+
+    geometry
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+
+    frontAndBack
+    {
+        type            symmetry;
+    }
+}
+
+// ************************************************************************* //

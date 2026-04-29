@@ -1,0 +1,23 @@
+/*---------------------------------------------------------------------------*\
+  Shared initial condition values.
+  Values with double underscores are placeholder tokens replaced at runtime
+  by the CFD runner (cfd_runner.py).
+\*---------------------------------------------------------------------------*/
+
+// Wind velocity vector (Ux Uy Uz) in m/s
+// Replaced by cfd_runner._write_initial_conditions()
+flowVelocity    __WIND_VELOCITY__;
+
+// Turbulent kinetic energy [m²/s²]
+turbulentKE     __K_VALUE__;
+
+// Turbulent specific dissipation rate [1/s]  (k-omega SST)
+turbulentOmega  __OMEGA_VALUE__;
+
+// Turbulent dissipation rate [m²/s³]  (k-epsilon)
+turbulentEpsilon __EPSILON_VALUE__;
+
+// Turbulent viscosity [m²/s]
+turbulentNu     1e-03;
+
+// ************************************************************************* //
