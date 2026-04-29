@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential cmake \
     libopenmpi-dev openmpi-bin \
     libgl1-mesa-glx libglu1-mesa libxrender1 libxext6 xvfb \
+    libxcursor1 libxinerama1 libxi6 libxrandr2 \
     && rm -rf /var/lib/apt/lists/*
 
 # ---------------------------------------------------------------------------
