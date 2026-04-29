@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version: v2312
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      nut;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Turbulent kinematic viscosity [m²/s]
+
+#include        "initialConditions"
+
+dimensions      [0 2 -1 0 0 0 0];
+
+internalField   uniform $turbulentNu;
+
+boundaryField
+{
+    inlet
+    {
+        type            calculated;
+        value           $internalField;
+    }
+
+    outlet
+    {
+        type            calculated;
+        value           $internalField;
+    }
+
+    ground
+    {
+        type            nutkWallFunction;
+        value           $internalField;
+    }
+
+    top
+    {
+        type            symmetry;
+    }
+
+    sides
+    {
+        type            symmetry;
+    }
+
+    geometry
+    {
+        type            nutkWallFunction;
+        value           $internalField;
+    }
+
+    frontAndBack
+    {
+        type            symmetry;
+    }
+}
+
+// ************************************************************************* //

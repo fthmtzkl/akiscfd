@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version: v2312
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Turbulent dissipation rate [m²/s³]
+// Used by k-epsilon model. Value computed as Cmu^0.75 * k^1.5 / L.
+
+#include        "initialConditions"
+
+dimensions      [0 2 -3 0 0 0 0];
+
+internalField   uniform $turbulentEpsilon;
+
+boundaryField
+{
+    inlet
+    {
+        type            fixedValue;
+        value           $internalField;
+    }
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    ground
+    {
+        type            epsilonWallFunction;
+        value           $internalField;
+    }
+
+    top
+    {
+        type            symmetry;
+    }
+
+    sides
+    {
+        type            symmetry;
+    }
+
+    geometry
+    {
+        type            epsilonWallFunction;
+        value           $internalField;
+    }
+
+    frontAndBack
+    {
+        type            symmetry;
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,111 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version: v2312
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     simpleFoam;
+
+startFrom       startTime;
+startTime       0;
+
+stopAt          endTime;
+// __END_TIME__ replaced by CFD runner (e.g. 500)
+endTime         __END_TIME__;
+
+deltaT          1;
+
+writeControl    timeStep;
+writeInterval   50;          // Write every 50 iterations
+purgeWrite      3;           // Keep only the last 3 time directories
+
+writeFormat     ascii;
+writePrecision  7;
+writeCompression off;
+
+timeFormat      general;
+timePrecision   6;
+
+runTimeModifiable true;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Function objects
+// ─────────────────────────────────────────────────────────────────────────────
+
+functions
+{
+    // ── Aerodynamic force coefficients ────────────────────────────────────
+    forceCoeffs
+    {
+        type            forceCoeffs;
+        libs            (forces);
+        writeControl    timeStep;
+        writeInterval   10;
+
+        patches         (geometry);     // The object surface patch
+
+        // Reference conditions (air at 20°C)
+        rho             rhoInf;
+        rhoInf          1.225;          // [kg/m³]
+
+        // Reference quantities – set conservatively; frontal area computed
+        // from bounding box in post-processing
+        CofR            (0 0 0);
+        liftDir         (0 0 1);
+        dragDir         (1 0 0);
+        pitchAxis       (0 1 0);
+
+        magUInf         20;             // Overridden at runtime by BC values
+        lRef            1;              // Reference length [m]
+        Aref            1;              // Reference area [m²] – updated in post-proc
+    }
+
+    // ── Pressure coefficient on surface ───────────────────────────────────
+    patchProbes
+    {
+        type            probes;
+        libs            (sampling);
+        writeControl    timeStep;
+        writeInterval   10;
+        fields          (p U);
+        probeLocations  ();
+    }
+
+    // ── Residuals logging ─────────────────────────────────────────────────
+    residuals
+    {
+        type            solverInfo;
+        libs            (utilityFunctionObjects);
+        writeControl    timeStep;
+        writeInterval   1;
+        fields          (U p k omega epsilon);
+    }
+
+    // ── Wall shear stress ─────────────────────────────────────────────────
+    wallShearStress
+    {
+        type            wallShearStress;
+        libs            (fieldFunctionObjects);
+        patches         (geometry ground);
+        writeControl    writeTime;
+    }
+
+    // ── y+ for mesh quality assessment ────────────────────────────────────
+    yPlus
+    {
+        type            yPlus;
+        libs            (fieldFunctionObjects);
+        patches         (geometry);
+        writeControl    writeTime;
+    }
+}
+
+// ************************************************************************* //

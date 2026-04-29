@@ -37,6 +37,6 @@ Thumbs.db
 # Docker
 *.log
 
-# Uploads / simulation output
-simulations/*/
-!simulations/.gitkeep
+# Simulation job output (UUID-named dirs) — keep templates
+simulations/jobs/
+simulations/results/

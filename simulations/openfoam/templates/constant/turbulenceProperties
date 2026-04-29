@@ -1,0 +1,27 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version: v2312
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      turbulenceProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// __TURBULENCE_MODEL__ is replaced at runtime: kOmegaSST or kEpsilon
+
+simulationType  RAS;
+
+RAS
+{
+    RASModel        __TURBULENCE_MODEL__;
+
+    turbulence      on;
+    printCoeffs     on;
+}
+
+// ************************************************************************* //

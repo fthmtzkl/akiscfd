@@ -45,7 +45,7 @@ services:
       - PYTHONPATH=/app
     volumes:
       - cfd_data:/data
-      - ../simulations:/app/../simulations:ro
+      - ./simulations:/simulations:ro
     depends_on:
       redis:
         condition: service_healthy
@@ -75,7 +75,7 @@ services:
       - PYTHONPATH=/app
     volumes:
       - cfd_data:/data
-      - ../simulations:/app/../simulations:ro
+      - ./simulations:/simulations:ro
     depends_on:
       redis:
         condition: service_healthy

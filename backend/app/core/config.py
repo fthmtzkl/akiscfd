@@ -16,7 +16,7 @@ class Settings:
     BASE_DIR: Path = Path(__file__).resolve().parent.parent.parent.parent
     UPLOAD_DIR: Path = Path(os.getenv("UPLOAD_DIR", "/tmp/cfd_uploads"))
     SIMULATIONS_DIR: Path = Path(os.getenv("SIMULATIONS_DIR", "/tmp/cfd_simulations"))
-    OPENFOAM_TEMPLATES_DIR: Path = BASE_DIR / "simulations" / "openfoam" / "templates"
+    OPENFOAM_TEMPLATES_DIR: Path = Path(os.getenv("OPENFOAM_TEMPLATES_DIR", "/simulations/openfoam/templates"))
 
     # Redis / Celery
     REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379/0")
